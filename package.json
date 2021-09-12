@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "public-api.js utilizes the public api for public api's",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MattPlays/public-api.js.git"
@@ -21,6 +19,6 @@
   },
   "homepage": "https://github.com/MattPlays/public-api.js#readme",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "axios": "^0.21.4"
   }
 }

@@ -1,4 +1,4 @@
-const fetch = require("node-fetch")
+const axios = require("axios").default;
 const baseURL = "https://api.publicapis.org/";
 var ServiceFilters = {
     title: null,
@@ -11,45 +11,47 @@ var ServiceFilters = {
 module.exports = {
     /**
      * 
-     * @param {ServiceFilters} filters 
+     * @param {ServiceFilters} [filters] 
      * @returns {Promise<{
      *      count: number,
      *      entries: {API: string, Description: string, Auth: string, HTTPS: boolean, Cors: string, Link: string, Category: string}[]
      * }>}
      */
-    GetEntries(filters = {}) {
+    async GetEntries(filters = {}) {
         let url = `${baseURL}entries${Object.keys(filters).map((d) => {
             if(Object.keys(filters).indexOf(d) == 0) return `?${d}=${filters[d]}`
             return `&${d}=${filters[d]}`
         }).join()}`
-        return fetch(url, {
-            "method": "GET",
-            "headers": {
+        return axios({
+            method: "GET",
+            url: url,
+            headers: {
                 "Accept": "application/json"
             }
-        }).then((data) => data.json()).then((data) => {
+        }).then(({data}) => {
             return data;
         }).catch((err) => {throw new Error(err)});
     },
     /**
      * 
-     * @param {ServiceFilters} filters 
+     * @param {ServiceFilters} [filters] 
      * @returns {Promise<{
      *      count: number,
      *      entries: {API: string, Description: string, Auth: string, HTTPS: boolean, Cors: string, Link: string, Category: string}[]
      * }>}
      */
-    GetRandom(filters = {}) {
+    async GetRandom(filters = {}) {
         let url = `${baseURL}random${Object.keys(filters).map((d) => {
             if(Object.keys(filters).indexOf(d) == 0) return `?${d}=${filters[d]}`
             return `&${d}=${filters[d]}`
         }).join()}`
-        return fetch(url, {
-            "method": "GET",
-            "headers": {
+        return axios({
+            method: "GET",
+            url: url,
+            headers: {
                 "Accept": "application/json"
             }
-        }).then((data) => data.json()).then((data) => {
+        }).then(({data}) => {
             return data;
         }).catch((err) => {throw new Error(err)});
     },
@@ -57,13 +59,14 @@ module.exports = {
      * 
      * @returns {Promise<string[]>}
      */
-    GetCategories() {
-        return fetch(`${baseURL}categories`, {
-            "method": "GET",
-            "headers": {
+    async GetCategories() {
+        return axios({
+            method: "GET",
+            url: `${baseURL}categories`,
+            headers: {
                 "Accept": "application/json"
             }
-        }).then((data) => data.json()).then((data) => {
+        }).then(({data}) => {
             return data;
         }).catch((err) => {throw new Error(err)});
     },
@@ -71,13 +74,14 @@ module.exports = {
      * 
      * @returns {Promise<{alive: boolean}>}
      */
-    CheckHealth() {
-        return fetch(`${baseURL}health`, {
-            "method": "GET",
-            "headers": {
+    async CheckHealth() {
+        return axios({
+            method: "GET",
+            url: `${baseURL}health`,
+            headers: {
                 "Accept": "application/json"
             }
-        }).then((data) => data.json()).then((data) => {
+        }).then(({data}) => {
             return data;
         }).catch((err) => {throw new Error(err)});
     }
